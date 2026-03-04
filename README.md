@@ -13,7 +13,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python callcenter_simpy.py
 
+Quick run:
+cd simpy && python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python callcenter_simpy.py
+
 ## SimLuxJS
 
 cd simluxjs
 npm run start
+
+Quick run:
+cd ../simluxjs && npm run start
