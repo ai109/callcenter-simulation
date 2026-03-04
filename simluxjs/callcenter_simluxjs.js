@@ -1,14 +1,12 @@
 /**
  * Callcenter model (SimLuxJS)
- *
  * - Interarrival: exponential mean MEAN_IAT (100 baseline, 50 worst-case)
  * - Service: normal(270, 60) truncated at >= 0
  * - Queue limit: if queueLen >= 20 AND all agents busy -> reject
  * - Find minimal N agents with rejected/arrived <= 5%
- *
  */
 
-const { SimLuxJS, SimEntity } = require("./SimLuxJS.js"); // adjust path as needed
+const { SimLuxJS, SimEntity } = require("./SimLuxJS.js");
 
 const QUEUE_LIMIT = 20;
 const SIM_TIME = 8 * 60 * 60; // 8 hours in seconds
@@ -18,7 +16,7 @@ function expTime(mean) {
   return -mean * Math.log(1 - Math.random());
 }
 
-// Box–Muller normal sample
+// Box Muller normal sample
 function normalSample(mean, sd) {
   let u1 = 0,
     u2 = 0;
@@ -41,14 +39,12 @@ class Stats {
 }
 
 async function runOnce(nAgents, meanIAT, seedIgnored = true) {
-  // (Optional) If you want reproducible RNG, swap Math.random with a seeded PRNG.
   const sim = new SimLuxJS(false);
 
-  // We model "busy agents" and "queue length" explicitly.
   let busy = 0;
   let queueLen = 0;
 
-  // ControlVariable is used so waiting callers can "waitUntil" an agent becomes free.  [oai_citation:6‡GitHub](https://github.com/htwddwiedem/SimLuxJS/blob/main/SimLuxJS.js)
+  // ControlVariable is used so waiting callers can "waitUntil" an agent becomes free.
   const state = sim.createControlVariable({ busy: 0, queueLen: 0 });
 
   const stats = new Stats();
@@ -104,7 +100,7 @@ async function runOnce(nAgents, meanIAT, seedIgnored = true) {
   }
 
   sim.addSimEntity(new ArrivalGenerator());
-  await sim.run(); // run to completion
+  await sim.run();
   const rejectRate = stats.arrived ? stats.rejected / stats.arrived : 0;
   return { rejectRate, stats };
 }

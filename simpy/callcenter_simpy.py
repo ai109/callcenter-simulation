@@ -1,6 +1,5 @@
 """
 Callcenter model (SimPy)
-
 - Interarrival time: exponential with mean MEAN_IAT seconds (100s baseline, 50s worst-case)
 - Service time: normal(mean=270s, sd=60s), truncated at >= 0
 - Queue limit: if >= 20 waiting in Resource.queue -> reject (counted)
@@ -10,13 +9,11 @@ Callcenter model (SimPy)
 from __future__ import annotations
 from collections.abc import Generator
 import random
-import math
 import simpy
 
 
 QUEUE_LIMIT = 20
 
-# Simulation horizon (change if your course expects something else)
 SIM_TIME = 8 * 60 * 60  # 8 hours in seconds
 
 
